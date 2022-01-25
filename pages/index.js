@@ -27,15 +27,7 @@ export default function PaginaInicial() {
   const [username, setUsername] = React.useState("");
   const [userLogin, setUserLogin] = React.useState("");
   const [userLocation, setUserLocation] = React.useState("");
-  const gitUserURL = `https://api.github.com/users/${username}`;
   const route = useRouter();
-  useEffect(() => {
-    username.length > 2
-      ? fetch(gitUserURL)
-          .then((response) => response.json())
-          .then((data) => setUserLogin(data.login), setUserLocation(data.location))
-      : (setUserLogin("Doctor Who"), setUserLocation("Gallifrey"));
-  });
 
   return (
     <>
@@ -106,6 +98,15 @@ export default function PaginaInicial() {
                 console.log("usuario digitou", event.target.value);
                 const valor = event.target.value;
                 setUsername(valor);
+                const gitUserURL = `https://api.github.com/users/${username}`;
+                if (username.length > 2) {
+                  fetch(gitUserURL)
+                    .then((resp) => resp.json())
+                    .then((data) => {
+                      setUserLogin(data.login);
+                      setUserLocation(data.location);
+                    });
+                }
               }}
               fullWidth
               textFieldColors={{
@@ -182,6 +183,7 @@ export default function PaginaInicial() {
               {username.length > 2 ? userLocation : "Gallifrey"}
             </Text>
           </Box>
+        
         </Box>
       </Box>
     </>
