@@ -1,45 +1,8 @@
 import { Box, Button, Text, TextField, Image } from "@skynexui/components";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import appConfig from "../config.json";
-
-function GlobalStyle() {
-  return (
-    <style global jsx>
-      {`
-        @font-face {
-          font-family: "DoctorWho";
-          src: url("/static/font/Doctor-Who.ttf") format("ttf");
-          font-weight: 400;
-          font-style: normal;
-        }
-
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          list-style: none;
-        }
-
-        body {
-          font-family: "DoctorWho";
-        }
-        /* App fit Height */
-        html,
-        body,
-        #__next {
-          min-height: 100vh;
-          display: flex;
-          flex: 1;
-        }
-        #__next {
-          flex: 1;
-        }
-        #__next > * {
-          flex: 1;
-        }
-      `}
-    </style>
-  );
-}
+import { responseSymbol } from "next/dist/server/web/spec-compliant/fetch-event";
 
 function Title(props) {
   const Tag = props.tag || "h1";
@@ -60,11 +23,22 @@ function Title(props) {
 }
 
 export default function PaginaInicial() {
-  const username = "jessmotta";
+  // const username = "jessmotta";
+  const [username, setUsername] = React.useState("");
+  const [userLogin, setUserLogin] = React.useState("");
+  const [userLocation, setUserLocation] = React.useState("");
+  const gitUserURL = `https://api.github.com/users/${username}`;
+  const route = useRouter();
+  useEffect(() => {
+    username.length > 2
+      ? fetch(gitUserURL)
+          .then((response) => response.json())
+          .then((data) => setUserLogin(data.login), setUserLocation(data.location))
+      : (setUserLogin("Doctor Who"), setUserLocation("Gallifrey"));
+  });
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: "flex",
@@ -98,6 +72,13 @@ export default function PaginaInicial() {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={function (event) {
+              event.preventDefault();
+              console.log("Alguem submeteu o form");
+              {
+                username.length > 2 ? route.push("/chat") : route.push("/404");
+              }
+            }}
             styleSheet={{
               display: "flex",
               flexDirection: "column",
@@ -120,6 +101,12 @@ export default function PaginaInicial() {
             </Text>
 
             <TextField
+              value={username}
+              onChange={function (event) {
+                console.log("usuario digitou", event.target.value);
+                const valor = event.target.value;
+                setUsername(valor);
+              }}
               fullWidth
               textFieldColors={{
                 neutral: {
@@ -165,7 +152,11 @@ export default function PaginaInicial() {
                 borderRadius: "50%",
                 marginBottom: "16px",
               }}
-              src={`https://github.com/${username}.png`}
+              src={
+                username.length > 2
+                  ? `https://github.com/${username}.png`
+                  : `https://i.postimg.cc/SRRNJ3sv/invalid-User.jpg`
+              }
             />
             <Text
               variant="body4"
@@ -176,10 +167,21 @@ export default function PaginaInicial() {
                 borderRadius: "1000px",
               }}
             >
-              {username}
+              {username.length > 2 ? userLogin : "Doctor Who?"}
+            </Text>
+            <Text
+              variant="body4"
+              styleSheet={{
+                color: appConfig.theme.colors.primary[200],
+                backgroundColor: appConfig.theme.colors.primary[900],
+                padding: "3px 10px",
+                borderRadius: "1000px",
+                marginTop: "10px",
+              }}
+            >
+              {username.length > 2 ? userLocation : "Gallifrey"}
             </Text>
           </Box>
-          {/* Photo Area */}
         </Box>
       </Box>
     </>
