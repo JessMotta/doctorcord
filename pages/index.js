@@ -179,7 +179,7 @@ export default function PaginaInicial() {
                 borderRadius: "1000px",
               }}
             >
-              {username.length > 2 ? "userLogin" : "Doctor Who?"}
+              {username.length > 2 ? userName : "Doctor Who?"}
             </Text>
             <Text
               variant="body4"
