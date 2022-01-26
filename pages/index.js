@@ -40,6 +40,9 @@ export default function PaginaInicial() {
       setUserName(userName);
     });
   });
+  function getUser() {
+    return { username };
+  }
   return (
     <>
       <Box
@@ -47,8 +50,8 @@ export default function PaginaInicial() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: appConfig.theme.colors.primary[300],
-          backgroundImage: "url(https://i.postimg.cc/5NX50Qf9/Background.png)",
+          backgroundColor: appConfig.theme.colors.primary[400],
+          backgroundImage: "url(https://i.postimg.cc/fyCYgSd1/background1.jpg)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundBlendMode: "multiply",
