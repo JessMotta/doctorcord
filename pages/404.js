@@ -1,27 +1,33 @@
 import { useRouter } from "next/router";
-import { Box, Button, Text, TextField, Image } from "@skynexui/components";
+import { Box, Button, Image, Text } from "@skynexui/components";
 import appConfig from "../config.json";
+import React from "react";
 
-function Title(props) {
-  const Tag = props.tag || "h1";
-  return (
-    <>
-      <Tag>{props.children}</Tag>
-      <style jsx>
-        {`
-          ${Tag} {
-            color: ${appConfig.theme.colors.neutrals["000"]};
-            font-size: 68px;
-            font-weight: 600;
-          }
-        `}
-      </style>
-    </>
-  );
-}
+// function Title(props) {
+//   const Tag = props.tag || "h1";
+//   return (
+//     <>
+//       <Tag>{props.children}</Tag>
+//       <style jsx>
+//         {`
+//           ${Tag} {
+//             color: ${appConfig.theme.colors.neutrals["000"]};
+//             font-size: 24px;
+//             font-weight: 600;
+//           }
+//         `}
+//       </style>
+//     </>
+//   );
+// }
 
 export default function Error() {
   const route = useRouter();
+
+  function handleClick(event) {
+    event.preventDefault();
+    route.push("/");
+  }
   return (
     <>
       <Box
@@ -36,7 +42,6 @@ export default function Error() {
           backgroundBlendMode: "multiply",
         }}
       >
-       
         <Box
           styleSheet={{
             display: "flex",
@@ -47,7 +52,6 @@ export default function Error() {
               sm: "row",
             },
             width: "100%",
-            maxWidth: "700px",
             padding: "32px",
             margin: "16px",
           }}
@@ -55,39 +59,60 @@ export default function Error() {
           <Image
             styleSheet={{
               height: "70%",
-              margin:"30px",
+              margin: "30px",
             }}
             src="https://i.postimg.cc/rwmKYhLj/dalek1.png"
           />
           <Box
-          styleSheet={{
-            display: "inline-block",
-            width: "100%",
-            padding: "32px",
-            margin: "16px",
-          }}
-        >
-        <Title>404 Exterminaaaate!!!</Title>
-      
-        <Button
-              type="onClick"
-              label="Voltar"
-              fullWidth
-              marginTop="30px"
-              buttonColors={{
-                contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[600],
-                mainColorLight: appConfig.theme.colors.primary[400],
-                mainColorStrong: appConfig.theme.colors.primary[700],
+            styleSheet={{
+              display: {
+                xs: "flex",
+                md: "inline-block",
+              },
+              alignItems: "center",
+              flexDirection: "column",
+              width: "50%",
+              padding: "32px",
+              margin: "16px",
+            }}
+          >
+            {/* <Title tag="h2">404 Exterminaaaate!!!</Title>
+             */}
+            <Text
+              variant="body3"
+              styleSheet={{
+                marginBottom: "32px",
+                fontSize: {
+                  xs: "24px",
+                  md: "34px",
+                  lg: "68px",
+                },
+                color: appConfig.theme.colors.neutrals["000"],
               }}
-              onClick={
-                  function(event){
-                      route.push("/")
-                  }
-              }
-            />
-         </Box>
+            >
+              404 Exterminaaaate!!
+            </Text>
 
+            <Box
+              styleSheet={{
+                width: "100%",
+                marginTop: "16px",
+              }}
+            >
+              <Button
+                type="onClick"
+                label="Voltar"
+                fullWidth
+                buttonColors={{
+                  contrastColor: appConfig.theme.colors.neutrals["000"],
+                  mainColor: appConfig.theme.colors.primary[600],
+                  mainColorLight: appConfig.theme.colors.primary[400],
+                  mainColorStrong: appConfig.theme.colors.primary[700],
+                }}
+                onClick={handleClick}
+              />
+            </Box>
+          </Box>
         </Box>
       </Box>
     </>

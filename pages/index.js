@@ -182,7 +182,7 @@ export default function PaginaInicial() {
               {username.length > 2 ? userName : "Doctor Who?"}
             </Text>
             <Text
-              variant="body4"
+              variant="body5"
               styleSheet={{
                 color: appConfig.theme.colors.primary[200],
                 backgroundColor: appConfig.theme.colors.primary[900],
