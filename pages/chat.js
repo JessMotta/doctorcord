@@ -169,6 +169,7 @@ function MessageList(props) {
     >
       {props.mensagens.map((mensagem) => {
         return (
+     
           <Text
             key={mensagem.id}
             tag="li"
@@ -208,7 +209,22 @@ function MessageList(props) {
                 {new Date().toLocaleDateString()}
               </Text>
             </Box>
+            <Box
+            styleSheet={{
+                display:"flex",
+                justifyContent:"space-between"
+
+            }}
+            >
+
+            <Box
+            styleSheet={{
+                justifySelf:"flex-start"
+            }}
+            >
+            
             {mensagem.texto}
+            </Box>
             <Button
               type="onClick"
               label="X"
@@ -224,7 +240,9 @@ function MessageList(props) {
                 deleteMessage(mensagem.id);
               }}
             />
+            </Box>
           </Text>
+          
         );
       })}
     </Box>
